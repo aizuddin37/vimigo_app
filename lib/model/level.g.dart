@@ -7,8 +7,8 @@ part of 'level.dart';
 // **************************************************************************
 
 Level _$LevelFromJson(Map<String, dynamic> json) => Level(
-      level_name: json['level_name'] as String?,
-      level_selected: json['level_selected'] as bool?,
+      level_name: json['level_name'] as String? ?? "",
+      level_selected: json['level_selected'] as bool? ?? false,
       content: json['content'] as String?,
     );
 

@@ -10,23 +10,28 @@ class LevelService {
   //     .map((snapshot) => snapshot.docs.map((doc) => Level.fromJson(doc.data())).toList());
 
   checkLevel() async {
-    final levelsSnapshot = await FirebaseFirestore.instance
-        .collection('levels')
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((element) {
-              print(element.data());
-            }));
+    QuerySnapshot levelsSnapshot =
+        await FirebaseFirestore.instance.collection('levels').get();
 
-    try {
-      for (var element in levelList) {
-        final values = levelsSnapshot as Map<dynamic, dynamic>;
-        values.forEach((key, values) {
-          levelList.add(Level.fromMap(values));
-        });
-        return levelList;
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+    levelsSnapshot.docs.forEach((document) {
+      Level level = Level.fromMap(document.data() as Map<String, dynamic>);
+      levelList.add(level);
+    });
+
+    print("levelList :" + levelList.toString());
+    return this.levelList;
+  }
+
+  updateLevel() async {
+    final updateSnapshot = FirebaseFirestore.instance
+        .collection('levels')
+        .doc('HMVUMd6qqfQDqjiMTvUn');
+
+    updateSnapshot.update({
+      'level_selected': true,
+    });
+
+    print("levelList : updated");
+    return this.levelList;
   }
 }
